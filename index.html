@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>ScenePick — 영화 장면 발견 관리</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+  </head>
+  <body class="app">
+    <!-- Header Component -->
+    <header class="header">
+      <div class="header__inner">
+        <button class="header__back-btn" id="header-back-btn" aria-label="뒤로가기" style="display: none;">
+          <span class="material-icons">arrow_back_ios</span>
+        </button>
+        <h1 class="header__title">ScenePick</h1>
+        <button class="header__profile-btn" id="header-profile-btn" aria-label="프로필">
+          <span class="header__avatar">
+            <span class="material-icons-outlined">account_circle</span>
+          </span>
+        </button>
+      </div>
+      <!-- Search & Filter Area (Conditional) -->
+      <div class="header__search-bar search-bar">
+        <div class="search-bar__wrapper">
+          <input
+            type="text"
+            class="search-bar__input"
+            placeholder="장면이나 영화 • 드라마 제목을 검색해보세요."
+          />
+          <button class="search-bar__icon-btn" aria-label="검색">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="header__filters filters">
+        <button class="filters__chip filters__chip--active">전체</button>
+        <button class="filters__chip">최신순</button>
+        <button class="filters__chip">오래된순</button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main">
+      <!-- Home Screen: Movie Bundle Feed -->
+      <section id="screen-home" class="screen screen--active">
+        <div class="scene-list" id="scene-feed">
+          <!-- Movie Bundle Cards will be injected here -->
+        </div>
+      </section>
+
+      <!-- Collection Screen: Saved Movies (Grid Layout) -->
+      <section id="screen-collection" class="screen">
+        <div class="collection-grid" id="collection-feed">
+          <!-- Collected Movie Posters will be injected here -->
+        </div>
+      </section>
+
+      <!-- Movie List Screen (Deprecated in IA redesign) -->
+      <section id="screen-movies" class="screen">
+        <div class="movie-grid" id="movie-list">
+          <!-- Movie List functionality integrated into Home -->
+        </div>
+      </section>
+
+      <!-- Movie Detail Screen -->
+      <section id="screen-detail" class="screen">
+        <div class="movie-detail" id="movie-detail-view">
+          <!-- Movie Detail Content will be injected here -->
+        </div>
+      </section>
+
+      <!-- Settings Screen -->
+      <section id="screen-settings" class="screen">
+        <div class="settings">
+          <ul class="settings__list">
+            <li class="settings__item">
+              <div class="settings__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <span class="settings__label">계정 관리</span>
+            </li>
+            <li class="settings__item">
+              <div class="settings__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              </div>
+              <span class="settings__label">알림 설정</span>
+            </li>
+            <li class="settings__item" id="toggle-dark-mode">
+              <div class="settings__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              </div>
+              <span class="settings__label">다크 모드</span>
+            </li>
+            <li class="settings__item settings__item--version">
+              <span class="settings__label">앱 버전</span>
+              <span class="settings__version">v1.0.0 (MVP)</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation Component -->
+    <nav class="bottom-nav">
+      <button
+        class="bottom-nav__item bottom-nav__item--active"
+        data-screen="home"
+      >
+        <i class="bottom-nav__icon icon-nav-pick"></i>
+        <span class="bottom-nav__label">픽</span>
+      </button>
+      <button class="bottom-nav__item" data-screen="collection">
+        <span class="material-icons-outlined bottom-nav__icon">video_library</span>
+        <span class="bottom-nav__label">컬렉션</span>
+      </button>
+    </nav>
+
+    <!-- Overlay: Save Loading & Matching -->
+    <div id="save-overlay" class="overlay">
+      <div class="matching-status">
+        <div class="matching-status__loader"></div>
+        <p class="matching-status__text">영화 정보를 분석하고 있습니다...</p>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- YouTube Transition Modal -->
+    <div id="youtube-modal" class="modal-overlay">
+      <div class="modal">
+        <p class="modal__text">공유했던 유튜브 쇼츠로 이동할까요?</p>
+        <div class="modal__actions">
+          <button class="modal__btn modal__btn--cancel">취소</button>
+          <button class="modal__btn modal__btn--move">이동</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
