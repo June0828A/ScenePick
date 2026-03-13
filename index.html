@@ -15,52 +15,57 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
   </head>
   <body class="app">
     <!-- Header Component -->
-    <header class="header">
-      <div class="header__inner">
-        <button class="header__back-btn" id="header-back-btn" aria-label="뒤로가기" style="display: none;">
-          <span class="material-icons">arrow_back_ios</span>
-        </button>
-        <h1 class="header__title">ScenePick</h1>
-        <button class="header__profile-btn" id="header-profile-btn" aria-label="프로필">
-          <span class="header__avatar">
-            <span class="material-icons-outlined">account_circle</span>
-          </span>
-        </button>
-      </div>
-      <!-- Search & Filter Area (Conditional) -->
-      <div class="header__search-bar search-bar">
-        <div class="search-bar__wrapper">
-          <input
-            type="text"
-            class="search-bar__input"
-            placeholder="장면이나 영화 • 드라마 제목을 검색해보세요."
-          />
-          <button class="search-bar__icon-btn" aria-label="검색">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </button>
+    <header class="header" id="main-header">
+      <div class="header__content">
+        <div class="header__top-row">
+          <div class="header__left">
+            <!-- Back Button (Detail, Settings) -->
+            <button class="header__icon-btn header__back-btn" id="header-back-btn" style="display: none;">
+              <i class="icon-chevron-left"></i>
+            </button>
+            
+            <!-- Logo (Home) -->
+            <div class="header__logo" id="header-logo">
+              <span class="header__logo-text">ScenePick</span>
+              <i class="icon-diamond"></i>
+            </div>
+            
+            <!-- Page Title (Collection, Detail, Settings) -->
+            <h1 class="header__title" id="header-title" style="display: none;">컬렉션</h1>
+          </div>
+          
+          <div class="header__right">
+            <button class="header__profile-btn" id="header-profile-btn">
+              <i class="icon-user-profile"></i>
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="header__filters filters">
-        <button class="filters__chip filters__chip--active">전체</button>
-        <button class="filters__chip">최신순</button>
-        <button class="filters__chip">오래된순</button>
+
+        <!-- Search & Filter Area (Home, Collection) -->
+        <div class="header__bottom-area" id="header-bottom-area">
+          <div class="search-bar">
+            <div class="search-bar__wrapper">
+              <input
+                type="text"
+                class="search-bar__input"
+                placeholder="텍스트 플레이스 홀더"
+              />
+              <i class="search-bar__icon icon-search"></i>
+            </div>
+          </div>
+          <div class="filters">
+            <button class="filters__chip filters__chip--active">전체</button>
+            <button class="filters__chip">최신순</button>
+            <button class="filters__chip">오래된순</button>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -94,51 +99,102 @@
         </div>
       </section>
 
-      <!-- Settings Screen -->
+      <!-- Settings Screen (My Profile) [V5] -->
       <section id="screen-settings" class="screen">
-        <div class="settings">
-          <ul class="settings__list">
-            <li class="settings__item">
-              <div class="settings__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <div class="profile-container">
+          <!-- Profile Card -->
+          <div class="profile-card">
+            <div class="profile-card__avatar">
+              <img src="img/icons/icon-user-profile-empty.svg" alt="Profile" />
+            </div>
+            <div class="profile-card__info">
+              <div class="profile-card__name-wrap">
+                <h2 class="profile-card__name">김신준</h2>
+                <div class="badge-v2 violet">멤버십</div>
               </div>
-              <span class="settings__label">계정 관리</span>
-            </li>
-            <li class="settings__item">
-              <div class="settings__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <p class="profile-card__email">shinjoon@scenepick.com</p>
+            </div>
+          </div>
+
+          <!-- Point Status -->
+          <div class="point-status">
+            <span class="point-status__label">보유 포인트</span>
+            <div class="point-status__value">
+              <span class="point-status__amount">2,450</span>
+              <span class="point-status__unit">P</span>
+            </div>
+          </div>
+
+          <!-- Settings Groups -->
+          <div class="settings-group">
+            <h3 class="settings-group__title">계정 설정</h3>
+            <div class="settings-list">
+              <div class="list-row-v2">
+                <div class="list-row-v2__left">
+                  <i class="icon-user"></i>
+                  <span>개인정보 관리</span>
+                </div>
+                <i class="icon-chevron-right gray"></i>
               </div>
-              <span class="settings__label">알림 설정</span>
-            </li>
-            <li class="settings__item" id="toggle-dark-mode">
-              <div class="settings__icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              <div class="list-row-v2">
+                <div class="list-row-v2__left">
+                  <i class="icon-bell"></i>
+                  <span>알림 설정</span>
+                </div>
+                <i class="icon-chevron-right gray"></i>
               </div>
-              <span class="settings__label">다크 모드</span>
-            </li>
-            <li class="settings__item settings__item--version">
-              <span class="settings__label">앱 버전</span>
-              <span class="settings__version">v1.0.0 (MVP)</span>
-            </li>
-          </ul>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <h3 class="settings-group__title">기타</h3>
+            <div class="settings-list">
+              <div class="list-row-v2" id="toggle-dark-mode">
+                <div class="list-row-v2__left">
+                  <i class="icon-dark-mode"></i>
+                  <span>다크 모드</span>
+                </div>
+                <div class="toggle-switch" id="dark-mode-toggle-v5">
+                  <div class="toggle-switch__knob"></div>
+                </div>
+              </div>
+              <div class="list-row-v2">
+                <div class="list-row-v2__left">
+                  <i class="icon-diamond"></i>
+                  <span>버전 정보</span>
+                </div>
+                <span class="version-text">v1.2.0</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
-    <!-- Bottom Navigation Component -->
+    <!-- Bottom Navigation Component [V2] -->
     <nav class="bottom-nav">
-      <button
-        class="bottom-nav__item bottom-nav__item--active"
-        data-screen="home"
-      >
-        <i class="bottom-nav__icon icon-nav-pick"></i>
-        <span class="bottom-nav__label">픽</span>
-      </button>
-      <button class="bottom-nav__item" data-screen="collection">
-        <i class="bottom-nav__icon icon-nav-collection"></i>
-        <span class="bottom-nav__label">컬렉션</span>
-      </button>
+      <div class="bottom-nav__buttons-wrap">
+        <div id="nav-home" class="bottom-nav__button active" onclick="navigateTo('home')">
+          <div class="bottom-nav__icon-box"><div class="nav-icon pick"></div></div>
+          <p class="bottom-nav__label">픽</p>
+        </div>
+        <div id="nav-collection" class="bottom-nav__button" onclick="navigateTo('collection')">
+          <div class="bottom-nav__icon-box"><div class="nav-icon collection"></div></div>
+          <p class="bottom-nav__label">콜렉션</p>
+        </div>
+      </div>
     </nav>
+
+    <!-- Bottom Sheet [V2] -->
+    <div id="bottom-sheet" class="bottom-sheet">
+      <div class="bottom-sheet__overlay" onclick="closeBottomSheet()"></div>
+      <div class="bottom-sheet__content">
+        <div class="bottom-sheet__handle"></div>
+        <div id="bottom-sheet-body" class="bottom-sheet__body">
+          <!-- Dynamic content (Movie Details) injected here -->
+        </div>
+      </div>
+    </div>
 
     <!-- Overlay: Save Loading & Matching -->
     <div id="save-overlay" class="overlay">

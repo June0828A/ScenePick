@@ -146,7 +146,7 @@ const movieDetailView = document.getElementById("movie-detail-view");
 const saveOverlay = document.getElementById("save-overlay");
 const filterChips = document.querySelectorAll(".filters__chip");
 const logo = document.querySelector(".header__title");
-const darkModeToggle = document.getElementById("toggle-dark-mode");
+const darkModeToggle = document.getElementById("dark-mode-toggle-v5");
 const headerProfileBtn = document.getElementById("header-profile-btn");
 const headerBackBtn = document.getElementById("header-back-btn");
 const toastContainer = document.getElementById("toast-container");
@@ -198,70 +198,77 @@ function showYoutubeConfirm(url) {
 }
 
 /**
- * Navigation Handler
+ * Navigation Handler [V3 Refined]
  */
 function navigateTo(screenId) {
-    if (['home', 'collection'].includes(state.currentScreen)) {
-        lastMainScreen = state.currentScreen;
-    }
-    state.currentScreen = screenId;
-    
-    // Update Screens
-    screens.forEach(s => s.classList.remove('screen--active'));
-    document.getElementById(`screen-${screenId}`).classList.add('screen--active');
-    
-    // Update Header
-    if (screenId === 'detail') {
-        logo.classList.add('header__title--hidden');
-        headerBackBtn.style.display = 'flex';
-    } else {
-        logo.classList.remove('header__title--hidden');
-        headerBackBtn.style.display = 'none';
+    if (['home', 'collection', 'settings'].includes(screenId)) {
+        state.currentScreen = screenId;
         
+        // Navigation Visibility & Active States
+        const botNav = document.querySelector('.bottom-nav');
         if (screenId === 'settings') {
-            logo.textContent = "내 프로필";
-        } else if (screenId === 'collection') {
-            logo.textContent = "컬렉션";
+            botNav.style.display = 'none';
         } else {
-            logo.textContent = "ScenePick";
+            botNav.style.display = 'flex';
+            document.querySelectorAll('.bottom-nav__button').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`nav-${screenId}`);
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            // Track last main screen for coming back from settings/modals
+            lastMainScreen = screenId;
         }
-    }
 
-    // Update Nav Icons
-    navItems.forEach(item => {
-        const icon = item.querySelector('.bottom-nav__icon');
-        const isCurrent = (item.dataset.screen === screenId) || (screenId === 'detail' && item.dataset.screen === lastMainScreen);
-        const isCustomIcon = icon.classList.contains('icon-nav-pick') || icon.classList.contains('icon-nav-collection');
+        // Update Screens
+        screens.forEach(s => s.classList.remove('screen--active'));
+        document.getElementById(`screen-${screenId}`).classList.add('screen--active');
         
-        if (isCurrent) {
-            item.classList.add('bottom-nav__item--active');
-            if (!isCustomIcon) {
-                icon.classList.remove('material-icons-outlined');
-                icon.classList.add('material-icons');
-            }
-        } else {
-            item.classList.remove('bottom-nav__item--active');
-            if (!isCustomIcon) {
-                icon.classList.remove('material-icons');
-                icon.classList.add('material-icons-outlined');
-            }
-        }
-    });
+        // Header Logic
+        const logoEl = document.getElementById("header-logo");
+        const titleEl = document.getElementById("header-title");
+        const backBtnEl = document.getElementById("header-back-btn");
+        const bottomAreaEl = document.getElementById("header-bottom-area");
 
-    // Render Data
-    if (screenId === 'home') renderMovieBundleFeed();
-    if (screenId === 'collection') renderCollectionFeed();
-    
-    // UI Tweaks: Hide search/filters on detail/settings
-    const filterSection = document.querySelector('.header__filters');
-    const searchSection = document.querySelector('.header__search-bar');
-    if (screenId === 'detail' || screenId === 'settings') {
-        if (filterSection) filterSection.style.display = 'none';
-        if (searchSection) searchSection.style.display = 'none';
-    } else {
-        if (filterSection) filterSection.style.display = 'flex';
-        if (searchSection) searchSection.style.display = 'block';
+        logoEl.style.display = 'none';
+        titleEl.style.display = 'none';
+        backBtnEl.style.display = 'none';
+        bottomAreaEl.style.display = 'none';
+
+        if (screenId === 'home') {
+            logoEl.style.display = 'flex';
+            bottomAreaEl.style.display = 'block';
+            renderMovieBundleFeed();
+        } else if (screenId === 'collection') {
+            titleEl.style.display = 'block';
+            titleEl.textContent = "컬렉션";
+            titleEl.classList.add('header__title--highlight');
+            bottomAreaEl.style.display = 'block';
+            renderCollectionFeed();
+        } else if (screenId === 'settings') {
+            backBtnEl.style.display = 'flex';
+            titleEl.style.display = 'block';
+            titleEl.textContent = "내 프로필";
+            titleEl.classList.remove('header__title--highlight');
+        }
+
+        window.scrollTo(0, 0);
     }
+}
+
+/**
+ * Bottom Sheet Logic [V2]
+ */
+function openBottomSheet(htmlContent) {
+    const sheet = document.getElementById('bottom-sheet');
+    const body = document.getElementById('bottom-sheet-body');
+    body.innerHTML = htmlContent;
+    sheet.classList.add('active');
+    document.body.style.overflow = 'hidden'; 
+}
+
+function closeBottomSheet() {
+    const sheet = document.getElementById('bottom-sheet');
+    sheet.classList.remove('active');
+    document.body.style.overflow = '';
 }
 
 /**
@@ -270,12 +277,10 @@ function navigateTo(screenId) {
 function handleSort(sortType) {
     state.currentSort = sortType;
     
-    filterChips.forEach(chip => {
-        const text = chip.textContent.trim();
-        if (sortType === 'all' && text === '전체') chip.classList.add('filters__chip--active');
-        else if (sortType === 'newest' && text === '최신순') chip.classList.add('filters__chip--active');
-        else if (sortType === 'oldest' && text === '오래된순') chip.classList.add('filters__chip--active');
-        else chip.classList.remove('filters__chip--active');
+    const filterLabels = { 'all': '전체', 'newest': '최신순', 'oldest': '오래된순' };
+    
+    document.querySelectorAll(".filters__chip").forEach(chip => {
+        chip.classList.toggle('filters__chip--active', chip.textContent.trim() === filterLabels[sortType]);
     });
 
     if (state.currentScreen === 'home') renderMovieBundleFeed();
@@ -326,56 +331,70 @@ function processFeedRendering(movieSource, targetElement, mode) {
             return bundle.title.toLowerCase().includes(query) || 
                    bundle.scenes.some(s => s.title.toLowerCase().includes(query));
         });
-        displayBundles.sort((a, b) => (a.title.toLowerCase().includes(query) ? 0 : 1) - (b.title.toLowerCase().includes(query) ? 0 : 1));
     }
 
     if (state.currentSort === 'newest') displayBundles.sort((a, b) => b.latestTime - a.latestTime);
     else if (state.currentSort === 'oldest') displayBundles.sort((a, b) => a.oldestTime - b.oldestTime);
 
-    // Pick Mode (Bundle Card)
+    // Pick Mode (CardsPick)
     if (mode === 'discovery') {
         targetElement.innerHTML = displayBundles.map(bundle => `
-            <article class="movie-bundle-card" onclick="showMovieDetail('${bundle.id}')">
-                <div class="movie-bundle-card__poster-box">
-                    <img src="${bundle.posterPath}" class="movie-bundle-card__poster" alt="${bundle.title}">
+            <article class="cards-pick" onclick="showMovieDetail('${bundle.id}')">
+                <div class="cards-pick__thumbnail-wrap">
+                    <img src="${bundle.posterPath}" class="cards-pick__thumbnail" alt="${bundle.title}">
+                    <div class="cards-pick__overlay">
+                        <div class="cards-pick__header-row">
+                            <h3 class="cards-pick__title">${bundle.title}</h3>
+                            ${bundle.recommendation === '추천' ? `
+                                <div class="cards-pick__badge">
+                                    <i class="icon-thumb-up"></i>
+                                    <span>추천</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="cards-pick__meta">
+                            영화 ∙ ${bundle.releaseDate.split('.')[0]}
+                        </div>
+                    </div>
                 </div>
-                <div class="movie-bundle-card__content">
-                    <div class="movie-bundle-card__header-row">
-                        <h3 class="movie-bundle-card__title">${bundle.title}</h3>
-                        ${bundle.recommendation === '추천' ? `<span class="movie-bundle-card__recommendation-badge"><i class="icon-thumb"></i>추천작</span>` : ''}
-                    </div>
-                    <div class="movie-bundle-card__scene-count-row">
+                <div class="cards-pick__scenes-section">
+                    <div class="cards-pick__scenes-header">
                         <i class="icon-pin"></i>
-                        <span class="movie-bundle-card__scene-count-text">${bundle.scenes.length}</span>
+                        <span class="cards-pick__scenes-count">${bundle.scenes.length} Scenes</span>
                     </div>
-                    <div class="movie-bundle-card__previews">
-                        ${bundle.scenes.slice(0, 3).map(scene => `
-                            <div class="movie-bundle-card__preview-item">
-                                <img src="${scene.thumbnail}" class="movie-bundle-card__preview-img" alt="Scene preview">
+                    <div class="cards-pick__scenes-list" onwheel="this.scrollLeft += event.deltaY">
+                        ${bundle.scenes.map(scene => `
+                            <div class="cards-pick__scene-item">
+                                <img src="${scene.thumbnail}" class="cards-pick__scene-img" alt="Scene preview">
                             </div>
                         `).join('')}
-                        ${bundle.scenes.length < 3 ? '<div class="movie-bundle-card__preview-item"></div>'.repeat(3 - bundle.scenes.length) : ''}
                     </div>
                 </div>
             </article>
         `).join('');
     } 
-    // Collection Mode (Poster Grid)
+    // Collection Mode (CardsCollection)
     else {
         targetElement.innerHTML = displayBundles.map(bundle => `
-            <div class="card-item" onclick="showMovieDetail('${bundle.id}')">
-                <img src="${bundle.posterPath}" class="card-item__img" alt="${bundle.title}">
-                <div class="card-item__overlay">
-                    <div class="card-item__title">${bundle.title}</div>
-                    <div class="card-item__meta">저장된 장면 ${bundle.scenes.length}개</div>
+            <article class="cards-collection" onclick="showMovieDetail('${bundle.id}')">
+                <img src="${bundle.posterPath}" class="cards-collection__thumbnail" alt="${bundle.title}">
+                <div class="cards-collection__overlay">
+                    <div class="cards-collection__info">
+                        <div class="cards-collection__title">${bundle.title}</div>
+                        <div class="cards-collection__meta">저장된 장면 ${bundle.scenes.length}개</div>
+                    </div>
+                    <button class="cards-collection__btn">
+                        보러가기
+                        <i class="icon-chevron-right"></i>
+                    </button>
                 </div>
-            </div>
+            </article>
         `).join('');
     }
 }
 
 /**
- * Show Movie Detail
+ * Show Movie Detail [V2 Bottom Sheet]
  */
 function showMovieDetail(movieId) {
     const movie = state.movies.find(m => m.id === movieId);
@@ -384,54 +403,79 @@ function showMovieDetail(movieId) {
 
     if (!movie) return;
 
-    navigateTo('detail');
-    
-    movieDetailView.innerHTML = `
-        <header class="movie-detail__header">
-            <img src="${movie.posterPath}" class="movie-detail__poster" alt="${movie.title}">
-            <div class="movie-detail__info-overlay">
-                <h2 class="movie-detail__title">${movie.title}</h2>
-                <div class="movie-detail__meta">개봉일: ${movie.releaseDate}</div>
-                <div class="movie-detail__summary">저장된 장면 ${relatedScenes.length}개</div>
-            </div>
-        </header>
-
-        <section class="movie-detail__actions">
-            <button class="movie-detail__btn movie-detail__btn--primary" onclick="window.open('${movie.ott[0]?.url || '#'}', '_blank')">
-                지금 시청하기
-            </button>
-            <button class="movie-detail__btn movie-detail__btn--secondary" onclick="toggleCollection(event, '${movie.id}')">
-                ${isCollected ? '나중에 보기 제거' : '나중에 보기'}
-            </button>
-        </section>
-        
-        <section class="movie-detail__section">
-            <h3 class="movie-detail__section-title">OTT 정보</h3>
-            <div class="ott-list">
-                ${movie.ott.map(provider => `
-                    <div class="ott-badge" onclick="window.open('${provider.url}', '_blank')">
-                        <img src="${provider.logo}" class="ott-badge__logo" alt="${provider.name}">
-                        <div class="ott-badge__name">${provider.name}</div>
+    const detailHTML = `
+        <div class="movie-detail">
+            <!-- Hero Area -->
+            <div class="movie-detail__hero">
+                <img src="${movie.posterPath}" alt="${movie.title}" class="movie-detail__poster">
+                <div class="movie-detail__hero-dim"></div>
+                <div class="movie-detail__info-content">
+                    <div class="movie-detail__title-wrap">
+                        <h1 class="movie-detail__title">${movie.title}</h1>
+                        ${movie.recommendation === '추천' ? `
+                            <div class="badge-v2 pink">
+                                <i class="icon-thumb-up"></i>
+                                <span>추천</span>
+                            </div>
+                        ` : ''}
                     </div>
-                `).join('')}
+                    <div class="movie-detail__meta">
+                        <span>영화</span>
+                        <span class="dot">∙</span>
+                        <span>${movie.releaseDate.split('.')[0]}</span>
+                    </div>
+                </div>
+                <button class="movie-detail__close-btn" onclick="closeBottomSheet()">
+                    <i class="icon-chevron-left"></i>
+                </button>
             </div>
-        </section>
 
-        <section class="movie-detail__section">
-            <h3 class="movie-detail__section-title">저장된 장면</h3>
-            <div class="scene-list--horizontal">
-                ${relatedScenes.map(scene => `
-                    <div class="card-item" style="flex: 0 0 140px; aspect-ratio: 9/16;" onclick="showYoutubeConfirm('https://youtube.com/shorts/${scene.videoId}')">
-                        <img src="${scene.thumbnail}" class="card-item__img" alt="${scene.title}">
-                        <div class="card-item__overlay">
-                            <div class="card-item__title">${scene.title}</div>
-                            <div class="card-item__meta">${scene.createdAt}</div>
+            <div class="movie-detail__content">
+                <!-- Action Buttons -->
+                <div class="movie-detail__actions">
+                    <button class="btn-primary-large" onclick="toggleCollection(event, '${movie.id}')">
+                        <i class="icon-plus"></i>
+                        <span>${isCollected ? '콜렉션에서 제거' : '콜렉션에 넣기'}</span>
+                    </button>
+                </div>
+
+                <!-- OTT List -->
+                <div class="movie-detail__section">
+                    <div class="section-header">
+                        <h2>제공 OTT</h2>
+                        <div class="toggle-sm">
+                            <span>내 구독만</span>
+                            <div class="toggle-track"><div class="toggle-knob"></div></div>
                         </div>
                     </div>
-                `).join('')}
+                    <div class="ott-list">
+                        ${movie.ott.map(ott => `
+                            <div class="ott-item">
+                                <div class="ott-item__logo-box"><img src="${ott.logo}" alt="${ott.name}"></div>
+                                <span class="ott-item__name">${ott.name}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Scenes Section -->
+                <div class="movie-detail__section">
+                    <div class="section-header">
+                        <h2>픽된 장면들</h2>
+                    </div>
+                    <div class="scene-horizontal-list">
+                        ${relatedScenes.map(scene => `
+                            <div class="scene-card-v2" onclick="showYoutubeConfirm('https://youtube.com/shorts/${scene.videoId}')">
+                                <img src="${scene.thumbnail}" alt="Scene preview">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
     `;
+
+    openBottomSheet(detailHTML);
 }
 
 /**
@@ -518,11 +562,15 @@ logo.addEventListener("click", () => navigateTo("home"));
 
 darkModeToggle.addEventListener("click", () => {
     appContainer.classList.toggle("theme--dark");
+    darkModeToggle.classList.toggle("toggle-switch--active");
     localStorage.setItem("theme", appContainer.classList.contains("theme--dark") ? "dark" : "light");
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    if (localStorage.getItem("theme") === "dark") appContainer.classList.add("theme--dark");
+    if (localStorage.getItem("theme") === "dark") {
+        appContainer.classList.add("theme--dark");
+        darkModeToggle.classList.add("toggle-switch--active");
+    }
     renderMovieBundleFeed();
 });
 
