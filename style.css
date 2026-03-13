@@ -749,6 +749,25 @@ h3,
   mask-image: url('img/icons/icon-pick-filled.svg');
 }
 
+.icon-nav-collection {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-text-sub);
+  -webkit-mask-image: url('img/icons/icon-collection-outline.svg');
+  mask-image: url('img/icons/icon-collection-outline.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.bottom-nav__item--active .icon-nav-collection {
+  background-color: var(--color-primary);
+  -webkit-mask-image: url('img/icons/icon-collection-filled.svg');
+  mask-image: url('img/icons/icon-collection-filled.svg');
+}
+
 .bottom-nav__label {
   font-size: 10px;
   font-weight: 600;

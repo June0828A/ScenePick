@@ -231,7 +231,7 @@ function navigateTo(screenId) {
     navItems.forEach(item => {
         const icon = item.querySelector('.bottom-nav__icon');
         const isCurrent = (item.dataset.screen === screenId) || (screenId === 'detail' && item.dataset.screen === lastMainScreen);
-        const isCustomIcon = icon.classList.contains('icon-nav-pick');
+        const isCustomIcon = icon.classList.contains('icon-nav-pick') || icon.classList.contains('icon-nav-collection');
         
         if (isCurrent) {
             item.classList.add('bottom-nav__item--active');
