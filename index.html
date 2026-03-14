@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ScenePick Prototype</title>
+  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- --- Screen 1: Pick --- -->
+    <section id="screen-pick" class="screen screen--active">
+      <header class="header" data-type="home">
+        <div class="header__content">
+          <div class="header__top">
+            <div class="logo">
+              <img src="logos/Logo.svg" alt="ScenePick" style="height: 24px;">
+            </div>
+            <button class="button-icon js-profile-btn">
+             <img src="icons/icon-user-profile.svg" class="user-profile" alt="Profile">
+          </button>
+          </div>
+          <div class="search-bar">
+            <input type="text" class="search-bar__input js-search-input" placeholder="장면이나 영화,드라마 제목">
+            <img src="icons/icon-search.svg" class="search-bar__icon" alt="Search">
+          </div>
+          <div class="filter-tabs">
+            <div class="chip chip--active js-filter-chip" data-sort="all">전체</div>
+            <div class="chip js-filter-chip" data-sort="latest">최신순</div>
+            <div class="chip js-filter-chip" data-sort="oldest">오래된순</div>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <!-- Card 1: Parasite -->
+        <article class="card js-card-trigger" data-id="1" data-year="2019">
+          <div class="card__picture" style="background-image: url('posters/parasite.png');"></div>
+          <div class="card__body">
+            <div class="card__title-row">
+              <h2 class="card__title">기생충</h2>
+              <div class="badge">
+                  <img src="icons/icon-thumb-up.svg" class="badge__icon" alt="" style="filter: brightness(0) invert(1);">
+                  <span class="badge__label">추천</span>
+                </div>
+            </div>
+            <div class="card__meta">영화 ∙ 2019</div>
+          </div>
+          <div class="card__scenes">
+            <div class="card__scenes-title">
+              <img src="icons/icon-pin.svg" alt="Pin" style="width:16px;">
+              <span>4 Scenes</span>
+            </div>
+            <div class="card__scenes-list">
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1581456495146-65a71b2c8e52?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=200');"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2: Interstellar -->
+        <article class="card js-card-trigger" data-id="2" data-year="2014">
+          <div class="card__picture" style="background-image: url('posters/interstellar.png');"></div>
+          <div class="card__body">
+            <div class="card__title-row">
+              <h2 class="card__title">인터스텔라</h2>
+              <div class="badge">
+                  <img src="icons/icon-thumb-up.svg" class="badge__icon" alt="" style="filter: brightness(0) invert(1);">
+                  <span class="badge__label">추천</span>
+                </div>
+            </div>
+            <div class="card__meta">영화 ∙ 2014</div>
+          </div>
+          <div class="card__scenes">
+            <div class="card__scenes-title">
+              <img src="icons/icon-pin.svg" alt="Pin" style="width:16px;">
+              <span>6 Scenes</span>
+            </div>
+            <div class="card__scenes-list">
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=200');"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3: La La Land -->
+        <article class="card js-card-trigger" data-id="4" data-year="2016">
+          <div class="card__picture" style="background-image: url('posters/lalaland.png');"></div>
+          <div class="card__body">
+            <div class="card__title-row">
+              <h2 class="card__title">라라랜드</h2>
+              <div class="badge">
+                  <img src="icons/icon-thumb-up.svg" class="badge__icon" alt="" style="filter: brightness(0) invert(1);">
+                  <span class="badge__label">추천</span>
+                </div>
+            </div>
+            <div class="card__meta">영화 ∙ 2016</div>
+          </div>
+          <div class="card__scenes">
+            <div class="card__scenes-title">
+              <img src="icons/icon-pin.svg" alt="Pin" style="width:16px;">
+              <span>5 Scenes</span>
+            </div>
+            <div class="card__scenes-list">
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1514525253344-967a7171d1c4?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=200');"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: About Time -->
+        <article class="card js-card-trigger" data-id="3" data-year="2013">
+          <div class="card__picture" style="background-image: url('posters/abouttime.png');"></div>
+          <div class="card__body">
+            <div class="card__title-row">
+              <h2 class="card__title">어바웃 타임</h2>
+              <div class="badge">
+                  <img src="icons/icon-thumb-up.svg" class="badge__icon" alt="" style="filter: brightness(0) invert(1);">
+                  <span class="badge__label">추천</span>
+                </div>
+            </div>
+            <div class="card__meta">영화 ∙ 2013</div>
+          </div>
+          <div class="card__scenes">
+            <div class="card__scenes-title">
+              <img src="icons/icon-pin.svg" alt="Pin" style="width:16px;">
+              <span>3 Scenes</span>
+            </div>
+            <div class="card__scenes-list">
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=200');"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5: Soul -->
+        <article class="card js-card-trigger" data-id="5" data-year="2020">
+          <div class="card__picture" style="background-image: url('posters/soul.png');"></div>
+          <div class="card__body">
+            <div class="card__title-row">
+              <h2 class="card__title">소울</h2>
+              <div class="badge">
+                  <img src="icons/icon-thumb-up.svg" class="badge__icon" alt="" style="filter: brightness(0) invert(1);">
+                  <span class="badge__label">추천</span>
+                </div>
+            </div>
+            <div class="card__meta">영화 ∙ 2020</div>
+          </div>
+          <div class="card__scenes">
+            <div class="card__scenes-title">
+              <img src="icons/icon-pin.svg" alt="Pin" style="width:16px;">
+              <span>4 Scenes</span>
+            </div>
+            <div class="card__scenes-list">
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1514525253344-967a7171d1c4?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=200');"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6: The Dark Knight -->
+        <article class="card js-card-trigger" data-id="6" data-year="2008">
+          <div class="card__picture" style="background-image: url('posters/darkknight.png');"></div>
+          <div class="card__body">
+            <div class="card__title-row">
+              <h2 class="card__title">다크 나이트</h2>
+              <div class="badge">
+                  <img src="icons/icon-thumb-up.svg" class="badge__icon" alt="" style="filter: brightness(0) invert(1);">
+                  <span class="badge__label">추천</span>
+                </div>
+            </div>
+            <div class="card__meta">영화 ∙ 2008</div>
+          </div>
+          <div class="card__scenes">
+            <div class="card__scenes-title">
+              <img src="icons/icon-pin.svg" alt="Pin" style="width:16px;">
+              <span>7 Scenes</span>
+            </div>
+            <div class="card__scenes-list">
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1581456495146-65a71b2c8e52?auto=format&fit=crop&q=80&w=200');"></div>
+              <div class="scene-preview" style="background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=200');"></div>
+            </div>
+          </div>
+        </article>
+      </main>
+    </section>
+
+    <!-- --- Screen 2: Content Detail --- -->
+    <section id="screen-detail" class="screen">
+      <header class="header" data-type="detail">
+        <div class="header__top">
+          <button class="button-icon js-back-btn">
+            <img src="icons/icon-chevron-left.svg" alt="Back" style="width:12px;">
+          </button>
+          <button class="button-icon js-profile-btn">
+             <img src="icons/icon-user-profile.svg" class="user-profile" alt="Profile">
+          </button>
+        </div>
+      </header>
+      
+      <main class="detail-view">
+        <div class="content-thumb detail-view__hero" data-type="on-page" data-gradient="true" style="background-color: var(--gray-100);">
+          <div class="card__info-wrap" style="padding: 24px; justify-content: flex-end; height: 100%;">
+            <div class="card__title-row">
+              <h1 class="card__title js-detail-title" style="color: var(--white); font-size: 40px;">콘텐츠 이름</h1>
+              <div class="badge">
+                  <img src="icons/icon-thumb-up.svg" class="badge__icon" alt="">
+                  <span class="badge__label">추천</span>
+                </div>
+            </div>
+            <div class="card__meta js-detail-meta" style="color: rgba(255, 255, 255, 0.8);">영화 ∙ 2000</div>
+          </div>
+        </div>
+        <div class="detail-view__info">
+          
+          <button class="detail-view__cta js-add-collection">컬렉션에 넣기</button>
+          
+          <div class="ott-section">
+            <div class="ott-section__header">
+              <span class="ott-section__title">제공 OTT</span>
+              <div class="toggle js-off-toggle">
+                <span class="toggle__label">내 구독만</span>
+                <div class="toggle__switch">
+                  <div class="toggle__knob"></div>
+                </div>
+              </div>
+            </div>
+            <div class="ott-list">
+              <div class="ott-item"></div>
+              <div class="ott-item"></div>
+              <div class="ott-item"></div>
+            </div>
+          </div>
+
+          <div class="detail-view__scenes">
+            <h3 class="card__scenes-title" style="margin-bottom: 12px;">픽된 장면들</h3>
+            <div class="card__scenes-list" style="padding-bottom: 20px;">
+              <!-- card-scene items injected by JS -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <!-- --- Screen 3: Collection --- -->
+    <section id="screen-collection" class="screen">
+      <header class="header" data-type="home">
+        <div class="header__content">
+          <div class="header__top">
+            <h2 class="header__title">컬렉션</h2>
+             <button class="button-icon js-profile-btn">
+              <img src="icons/icon-user-profile.svg" class="user-profile" alt="Profile">
+            </button>
+          </div>
+          <div class="search-bar">
+            <input type="text" class="search-bar__input js-search-input" placeholder="콘텐츠 이름 검색">
+            <img src="icons/icon-search.svg" class="search-bar__icon" alt="Search">
+          </div>
+          <div class="filter-tabs">
+            <div class="chip chip--active js-filter-chip" data-sort="all">전체</div>
+            <div class="chip js-filter-chip" data-sort="latest">최신순</div>
+            <div class="chip js-filter-chip" data-sort="oldest">오래된순</div>
+          </div>
+        </div>
+      </header>
+
+      <main class="collection-list js-collection-container">
+        <!-- Collection items will be injected here -->
+         <p class="js-empty-msg" style="text-align:center; color: var(--gray-400); padding-top: 40px;">저장된 콘텐츠가 없습니다.</p>
+      </main>
+    </section>
+
+    <!-- --- Screen 4: My Profile --- -->
+    <section id="screen-profile" class="screen">
+      <header class="header" data-type="depth">
+          <div class="header__top">
+            <button class="button-icon js-back-btn">
+              <img src="icons/icon-chevron-left.svg" alt="Back" style="width:24px;">
+            </button>
+            <h2 class="header__title">내 프로필</h2>
+          </div>
+      </header>
+      
+      <main class="profile-view">
+        <div class="list-group">
+          <div class="list-row">
+            <div class="list-row__left">
+              <div class="list-row__icon-box"><img src="icons/icon-user.svg" class="list-row__icon" alt=""></div>
+              <span class="list-row__label">계정 설정</span>
+            </div>
+            <img src="icons/icon-chevron-right.svg" style="width:16px; opacity:0.3;" alt="">
+          </div>
+          <div class="list-row">
+            <div class="list-row__left">
+              <div class="list-row__icon-box"><img src="icons/icon-bell.svg" class="list-row__icon" alt=""></div>
+              <span class="list-row__label">알림 설정</span>
+            </div>
+            <img src="icons/icon-chevron-right.svg" style="width:16px; opacity:0.3;" alt="">
+          </div>
+          <div class="list-row">
+            <div class="list-row__left">
+              <div class="list-row__icon-box"><img src="icons/icon-dark-mode.svg" class="list-row__icon" alt=""></div>
+              <span class="list-row__label">다크 모드</span>
+            </div>
+            <div class="toggle__switch js-dark-toggle">
+              <div class="toggle__knob"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="version-info">
+          <span>앱 버전</span>
+          <span>v1.0.0 (MVP)</span>
+        </div>
+      </main>
+    </section>
+
+    <!-- --- Bottom Navigation --- -->
+    <nav class="tab-nav">
+      <ul class="tab-nav__list">
+        <li class="tab-nav__item tab-nav__item--active js-tab-btn" data-target="screen-pick">
+          <div class="tab-nav__icon layered-component" id="nav-icon-pick-container">
+            <img src="icons/icon-pick-outline.svg" class="layered-component-child nav-icon-pick-outline" alt="Pick" id="nav-icon-pick">
+          </div>
+          <span class="tab-nav__label">픽</span>
+        </li>
+        <li class="tab-nav__item js-tab-btn" data-target="screen-collection">
+          <div class="tab-nav__icon layered-component" id="nav-icon-collection-container">
+            <img src="icons/icon-collection-outline.svg" class="layered-component-child nav-icon-collection-outline" alt="Collection" id="nav-icon-collection">
+          </div>
+          <span class="tab-nav__label">콜렉션</span>
+        </li>
+      </ul>
+    </nav>
+
+  </div>
+
+  <script src="script.js?v=2"></script>
+</body>
+</html>

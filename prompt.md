@@ -1,0 +1,1 @@
+[필수 프롬프트 가이드] HTML: 논리적인 시맨틱 태그를 사용하고, HTML 파일 내부에는 <style> 태그를 절대 작성하지 마. 모든 스타일은 별도의 CSS 영역에 작성해. BEM CSS: 모든 클래스 네이밍은 BEM(Block**Element--Modifier) 방식을 따라야 해. (예: .card**title, .button--primary) 레이아웃: Flexbox나 Grid를 활용해 현대적이고 반응형인 레이아웃을 구성해줘.

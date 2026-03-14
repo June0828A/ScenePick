@@ -1,0 +1,840 @@
+:root {
+  /* Colors */
+  --violet-500: #8b5cf6;
+  --violet-500-basic: #8b5cf6; /* Same as basic from Figma */
+  --violet-100: #ede9fe;
+  --gray-950: #030712;
+  --gray-700: #374151;
+  --gray-500: #6b7280;
+  --gray-400: #9ca3af;
+  --gray-300: #d1d5db;
+  --gray-200: #e5e7eb;
+  --gray-100: #f3f4f6;
+  --gray-50: #f9fafb;
+  --white: #ffffff;
+  --pink-600: #db2777;
+  
+  /* Alpha / Shadows */
+  --alpha-light-100: rgba(26, 26, 26, 0.09); /* Elevation/01 */
+  --alpha-light-200: rgba(26, 26, 26, 0.2);  /* Elevation/04 */
+  --alpha-dark-500: rgba(255, 255, 255, 0.48); /* Card Gradient Bottom */
+  
+  /* Safe Areas (iPhone Pro) */
+  --safe-area-top: 47px;
+  --safe-area-bottom: 34px;
+  
+  /* Typography */
+  --font-main: 'SF Pro', 'Noto Sans KR', sans-serif;
+  --font-sub: 'Pretendard', sans-serif;
+}
+
+/* --- Base Styles --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--gray-50);
+  color: var(--gray-950);
+  line-height: 1.5;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 390px;
+  height: 100%;
+  background: var(--white);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Optional container shadow */
+}
+
+/* --- Screens Navigation --- */
+.screen {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  height: 100%;
+}
+
+.screen--active {
+  display: flex;
+}
+
+/* --- Components: Header --- */
+.header {
+  background: var(--white);
+  padding-top: var(--safe-area-top);
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 0;
+  z-index: 10;
+}
+
+.header__content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 8px;
+}
+
+.header__top {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 48px;
+}
+
+/* Home Header Variant */
+.header[data-type="home"] .header__top {
+  justify-content: space-between;
+}
+
+/* Depth Header Variant */
+.header[data-type="depth"] {
+  box-shadow: 0px 0.5px 6px 0px var(--alpha-light-100);
+}
+
+.header[data-type="depth"] .header__top {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+/* Modifier when we have back button + right actions evenly spaced */
+.header[data-type="detail"] .header__top {
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.logo__img {
+  height: 15px;
+  width: auto;
+}
+
+.logo__icon {
+  width: 18px;
+  height: 18px;
+}
+
+.header__title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -1.54px;
+  line-height: 40px;
+}
+
+.button-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.button-icon:active {
+  background: var(--gray-100);
+}
+
+.user-profile {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+.layered-component-child {
+  position: absolute;
+  display: block;
+  max-width: none;
+  /* Ensuring absolute children don't scale unexpectedly */
+  width: auto;
+  height: auto;
+}
+
+/* --- Bottom Nav Icon Specifics --- */
+.nav-icon-pick-outline {
+  width: 18px;
+  height: 20px;
+  left: 3px;
+  top: 2px;
+}
+
+.nav-icon-pick-filled {
+  width: 18px;
+  height: 20px;
+  left: 3px;
+  top: 2px;
+}
+
+.nav-icon-collection-outline,
+.nav-icon-collection-filled {
+  width: 20px;
+  height: 18px;
+  left: 2px;
+  top: 3px;
+}
+
+/* --- Search Bar --- */
+.search-bar {
+  background: var(--gray-100);
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.search-bar:focus-within {
+  background: var(--white);
+  border-color: var(--violet-500);
+}
+
+.search-bar__input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 590;
+  line-height: 16px;
+  color: var(--gray-950);
+  letter-spacing: -0.35px;
+  outline: none;
+  caret-color: var(--violet-500); /* Use brand color for cursor */
+}
+
+.search-bar__input::placeholder {
+  color: var(--gray-400);
+  transition: color 0.2s;
+}
+
+.search-bar:focus-within .search-bar__input::placeholder {
+  color: var(--gray-300);
+}
+
+.search-bar__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: filter 0.2s;
+}
+
+/* Optional: if icon is supposed to change color on focus, usually to primary color, 
+   but we'll keep it as default since the specs only highlight the box variables */
+/* .search-bar:focus-within .search-bar__icon {
+  filter: brightness(0) saturate(100%) invert(43%) sepia(94%) saturate(2222%) hue-rotate(234deg) brightness(101%) contrast(95%);
+} */
+
+/* Removed global .js-back-btn hardcoding to allow data-type specific styles */
+
+/* --- Filter Chips --- */
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0;
+  overflow-x: auto;
+}
+
+.filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  font-size: 14px;
+  font-weight: 590;
+  color: var(--gray-400);
+  letter-spacing: -0.35px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.chip--active {
+  background: var(--violet-500);
+  color: var(--white);
+  border-color: var(--gray-200);
+}
+
+/* --- Content List --- */
+.main-content {
+  flex: 1;
+  padding: 18px 0 100px 0; /* Extra bottom padding for tab bar */
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+/* --- Content Card --- */
+.card {
+  width: 309px; /* From Figma Cards/Pick */
+  height: 500px;
+  background: var(--white);
+  border-radius: 24px;
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05); /* subtle shadow */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Base Content Thumbnail Component (Wait this is content-thumb, keep it for Detail View) */
+.content-thumb {
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base Gradient for detail view thumbs that need text overlay */
+.content-thumb[data-gradient="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(3, 7, 18, 0.8) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Type=On List variant */
+.content-thumb[data-type="on-list"] {
+  aspect-ratio: 309 / 330;
+}
+
+/* Type=On Page variant */
+.content-thumb[data-type="on-page"] {
+  aspect-ratio: 1 / 1;
+}
+
+/* --- Card specific regions (Cards/Pick 8074:8090) --- */
+.card__picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 350px;
+  background-size: cover;
+  background-position: center top;
+  z-index: 0;
+}
+
+.card__picture::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  z-index: 1;
+}
+
+.card__body {
+  position: relative;
+  z-index: 2;
+  margin-top: 280px; /* Push content down strictly below the solid part of the fading image */
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card__info-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.card__title {
+  /* Header typography */
+  font-family: var(--font-main);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -1.54px;
+  line-height: 40px;
+  color: var(--gray-950);
+}
+
+.card__meta {
+  /* Caption typography */
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray-500);
+  letter-spacing: -0.3px;
+  line-height: 20px;
+}
+
+.badge {
+  background: var(--pink-600);
+  padding: 2px 6px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge__label {
+  /* Label Sm typography */
+  font-family: var(--font-main);
+  font-size: 12px;
+  font-weight: 590;
+  color: var(--white);
+  letter-spacing: -0.54px;
+  line-height: 16px;
+}
+
+.badge__icon {
+  width: 12px;
+  height: 12px;
+  filter: brightness(0) invert(1); /* Force white */
+}
+
+/* removed duplicated .card__meta block since it's merged above */
+
+.card__scenes {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px 20px 20px;
+  margin-top: auto; /* Push to bottom of the 500px card */
+  display: flex;
+  flex-direction: column;
+}
+
+.card__scenes-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--violet-500);
+  margin-bottom: 12px;
+}
+
+/* Colorize the pin icon to purple within scenes title */
+.card__scenes-title img {
+  filter: invert(41%) sepia(87%) saturate(3015%) hue-rotate(244deg) brightness(101%) contrast(92%); /* approximate #8b5cf6 violet-500 */
+}
+
+.card__scenes-list {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  overflow: hidden; /* Prevent scrolling, showing exact 4 items if 309px wide */
+}
+
+/* Used for tiny previews in main feed (Cards/Pick) */
+.scene-preview {
+  flex: 1;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.05); /* very subtle border */
+  background: var(--gray-100);
+  aspect-ratio: 60 / 88; /* Tall rectangle as per design */
+  height: auto;
+  background-size: cover;
+  background-position: center;
+}
+
+/* --- Cards/Scenes Component (Type=Vertical Scene Card) --- */
+.card-scene {
+  width: 174px;
+  height: 348px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0px 0.5px 6px 4px var(--alpha-light-100);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  border: 1px solid var(--alpha-light-100); /* subtle border */
+}
+
+/* Scene dark overlay */
+.card-scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.48); /* alpha/light/500 */
+  z-index: 1;
+}
+
+.card-scene__content {
+  position: relative;
+  z-index: 2;
+  color: var(--white);
+}
+
+.card-scene__title {
+  /* Subheader */
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 510;
+  line-height: 28px;
+  letter-spacing: -0.99px;
+  margin-bottom: 4px;
+}
+
+.card-scene__meta {
+  /* Caption */
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.3px;
+  color: rgba(255, 255, 255, 0.6); /* or alpha/dark/600 equivalent */
+}
+
+/* --- Detail Page --- */
+.detail-view {
+  display: flex;
+  flex-direction: column;
+}
+
+#screen-detail .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: transparent;
+  box-shadow: none;
+  z-index: 100;
+}
+
+.header[data-type="detail"] .button-icon {
+  background: var(--alpha-light-100);
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
+}
+
+.detail-view__hero {
+  /* Inherits from .content-thumb now, just specific wrapper fixes */
+  width: 100%;
+  background-color: var(--gray-100);
+}
+
+.detail-view__info {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-view__cta {
+  width: 100%;
+  height: 56px;
+  background: var(--violet-500);
+  color: var(--white);
+  border: none;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.detail-view__cta:active {
+  opacity: 0.8;
+}
+
+.ott-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ott-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ott-section__title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle__label {
+  font-size: 14px;
+  color: var(--gray-700);
+  font-weight: 590;
+}
+
+.toggle__switch {
+  width: 64px;
+  height: 32px;
+  background: var(--gray-300);
+  border-radius: 100px;
+  padding: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle__switch--on {
+  background: var(--violet-500);
+}
+
+.toggle__knob {
+  width: 24px;
+  height: 24px;
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.toggle__switch--on .toggle__knob {
+  transform: translateX(32px);
+}
+
+.ott-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+}
+
+.ott-item {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--gray-100);
+  flex-shrink: 0;
+}
+
+/* --- Collection Page --- */
+.collection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+.collection-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid var(--gray-100);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.collection-card__thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.collection-card__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.collection-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.collection-card__meta {
+  font-family: var(--font-sub);
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.button-view {
+  padding: 8px 16px;
+  background: var(--violet-100);
+  color: var(--violet-500);
+  border: none;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* --- Profile Page --- */
+.profile-view {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.list-row {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-50);
+}
+
+.list-row__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.list-row__icon-box {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-50);
+  border-radius: 6px;
+}
+
+.list-row__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.list-row__label {
+  font-size: 14px;
+  font-weight: 590;
+  color: var(--gray-700);
+  letter-spacing: -0.35px;
+}
+
+.version-info {
+  margin-top: 12px;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--gray-300);
+}
+
+/* --- Bottom Navigation --- */
+.tab-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-top: 1.5px solid var(--gray-100);
+  padding-bottom: var(--safe-area-bottom);
+  box-shadow: 0px 2px 14px 0px var(--alpha-light-200);
+  z-index: 100;
+}
+
+.tab-nav__list {
+  display: flex;
+  height: 62px;
+  list-style: none;
+  align-items: center; /* Centering buttons vertically within the bar */
+  justify-content: space-around;
+}
+
+.tab-nav__item {
+  width: 82.5px;
+  height: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.tab-nav__icon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.tab-nav__label {
+  font-family: var(--font-sub);
+  font-size: 12px;
+  font-weight: 600; /* Pretendard SemiBold */
+  color: var(--gray-500);
+  letter-spacing: -0.3px;
+  line-height: 20px;
+}
+
+.tab-nav__item--active .tab-nav__label {
+  color: var(--violet-500);
+}
+
+.tab-nav__item--active .tab-nav__icon img {
+  filter: brightness(0) saturate(100%) invert(43%) sepia(94%) saturate(2222%) hue-rotate(234deg) brightness(101%) contrast(95%);
+}
+
+/* --- Utility --- */
+.hidden {
+  display: none;
+}
+
+/* --- Dark Mode Specifics --- */
+.dark-theme {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Revert images so they don't look like negatives */
+.dark-theme .card__thumbnail,
+.dark-theme .scene-preview,
+.dark-theme .detail-view__hero {
+  filter: invert(1) hue-rotate(180deg);
+}
