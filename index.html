@@ -10,20 +10,36 @@
 <body>
   <div class="app-container">
     
+    <!-- --- Screen 0: Login --- -->
+    <section id="screen-login" class="screen screen--active">
+      <div class="login-view">
+        <div class="login-view__logo">
+          <img src="logos/Logo.svg" alt="ScenePick" class="logo__img" style="height: 48px;">
+          <p class="login-view__slogan">쇼츠에서 픽한 영화 • 드라마<br>바로 보러가기</p>
+        </div>
+        <button class="btn-google js-login-btn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 18px;">
+          <span>Google 계정으로 시작하기</span>
+        </button>
+      </div>
+    </section>
+
     <!-- --- Screen 1: Pick --- -->
-    <section id="screen-pick" class="screen screen--active">
+    <section id="screen-pick" class="screen">
+
+      <div class="safe-area-mask"></div>
       <header class="header" data-type="home">
         <div class="header__content">
           <div class="header__top">
             <div class="logo">
-              <img src="logos/Logo.svg" alt="ScenePick" style="height: 24px;">
+              <img src="logos/Logo.svg" alt="ScenePick" class="logo__img" style="height: 24px;">
             </div>
             <button class="button-icon js-profile-btn">
              <img src="icons/icon-user-profile.svg" class="user-profile" alt="Profile">
           </button>
           </div>
           <div class="search-bar">
-            <input type="text" class="search-bar__input js-search-input" placeholder="장면이나 영화,드라마 제목">
+            <input type="text" class="search-bar__input js-search-input" placeholder="장면이나 영화,드라마 제목을 입력해주세요.">
             <img src="icons/icon-search.svg" class="search-bar__icon" alt="Search">
           </div>
           <div class="filter-tabs">
@@ -34,7 +50,18 @@
         </div>
       </header>
 
-      <main class="main-content">
+      <main class="main-content js-pick-list">
+        <!-- Add empty state msg initially hidden -->
+        <div class="empty-state js-pick-empty hidden" style="text-align: center; color: var(--gray-400); padding-top: 100px; font-size: 14px; font-family: var(--font-sub);">
+          <div style="margin-bottom: 24px;">
+            <p>아직 픽 된 콘텐츠가 없어요.</p>
+            <p>유튜브 쇼츠에서 관심있는 장면을 공유해보세요.</p>
+          </div>
+          <button class="btn btn--primary js-go-shorts" style="width: auto; margin: 0 auto; padding: 0 40px;">
+            <span>유튜브 쇼츠로 이동</span>
+          </button>
+        </div>
+
         <!-- Card 1: Parasite -->
         <article class="card js-card-trigger" data-id="1" data-year="2019">
           <div class="card__picture" style="background-image: url('posters/parasite.png');"></div>
@@ -199,7 +226,7 @@
       <header class="header" data-type="detail">
         <div class="header__top">
           <button class="button-icon js-back-btn">
-            <img src="icons/icon-chevron-left.svg" alt="Back" style="width:12px;">
+            <img src="icons/icon-chevron-left.svg" alt="Back" style="width:32px; filter: brightness(0) invert(1) !important;">
           </button>
           <button class="button-icon js-profile-btn">
              <img src="icons/icon-user-profile.svg" class="user-profile" alt="Profile">
@@ -222,23 +249,54 @@
         </div>
         <div class="detail-view__info">
           
-          <button class="detail-view__cta js-add-collection">컬렉션에 넣기</button>
+          <div class="detail-view__actions">
+            <!-- State 1: Not in Collection -->
+            <button class="btn btn--primary js-add-collection">
+              <img src="icons/icon-collection-filled.svg" alt=""><span>콜렉션에 담기</span>
+            </button>
+            
+            <!-- State 2: Already in Collection -->
+            <div class="button-group js-collection-actions hidden">
+              <button class="btn btn--neutral js-remove-collection">
+                <span>콜렉션에서 빼기</span>
+              </button>
+              <button class="btn btn--primary js-go-view">
+                <span>보러가기</span>
+                <img src="icons/icon-play.svg" alt="" style="width: 20px; filter: brightness(0) invert(1);">
+              </button>
+            </div>
+          </div>
           
           <div class="ott-section">
+
             <div class="ott-section__header">
               <span class="ott-section__title">제공 OTT</span>
               <div class="toggle js-off-toggle">
                 <span class="toggle__label">내 구독만</span>
-                <div class="toggle__switch">
+                <div class="toggle__switch toggle__switch--sm">
                   <div class="toggle__knob"></div>
                 </div>
               </div>
             </div>
             <div class="ott-list">
-              <div class="ott-item"></div>
-              <div class="ott-item"></div>
-              <div class="ott-item"></div>
+              <div class="ott-item" data-ott="netflix">
+                <div class="ott-item__icon" style="background-image: url('logos/netflix.png');"></div>
+                <span class="ott-item__name">넷플릭스</span>
+              </div>
+              <div class="ott-item" data-ott="watcha">
+                <div class="ott-item__icon" style="background-image: url('logos/watcha.png');"></div>
+                <span class="ott-item__name">왓챠</span>
+              </div>
+              <div class="ott-item" data-ott="tving">
+                <div class="ott-item__icon" style="background-image: url('logos/tving.png');"></div>
+                <span class="ott-item__name">티빙</span>
+              </div>
+              <div class="ott-item" data-ott="disney">
+                <div class="ott-item__icon" style="background-image: url('logos/disney.png');"></div>
+                <span class="ott-item__name">디즈니+</span>
+              </div>
             </div>
+
           </div>
 
           <div class="detail-view__scenes">
@@ -284,7 +342,7 @@
       <header class="header" data-type="depth">
           <div class="header__top">
             <button class="button-icon js-back-btn">
-              <img src="icons/icon-chevron-left.svg" alt="Back" style="width:24px;">
+              <img src="icons/icon-chevron-left.svg" alt="Back" style="width:32px;">
             </button>
             <h2 class="header__title">내 프로필</h2>
           </div>
@@ -297,21 +355,21 @@
               <div class="list-row__icon-box"><img src="icons/icon-user.svg" class="list-row__icon" alt=""></div>
               <span class="list-row__label">계정 설정</span>
             </div>
-            <img src="icons/icon-chevron-right.svg" style="width:16px; opacity:0.3;" alt="">
+            <img src="icons/icon-chevron-right.svg" class="list-row__arrow" alt="">
           </div>
           <div class="list-row">
             <div class="list-row__left">
               <div class="list-row__icon-box"><img src="icons/icon-bell.svg" class="list-row__icon" alt=""></div>
               <span class="list-row__label">알림 설정</span>
             </div>
-            <img src="icons/icon-chevron-right.svg" style="width:16px; opacity:0.3;" alt="">
+            <img src="icons/icon-chevron-right.svg" class="list-row__arrow" alt="">
           </div>
           <div class="list-row">
             <div class="list-row__left">
               <div class="list-row__icon-box"><img src="icons/icon-dark-mode.svg" class="list-row__icon" alt=""></div>
               <span class="list-row__label">다크 모드</span>
             </div>
-            <div class="toggle__switch js-dark-toggle">
+            <div class="toggle__switch toggle__switch--md js-dark-toggle">
               <div class="toggle__knob"></div>
             </div>
           </div>
@@ -325,11 +383,11 @@
     </section>
 
     <!-- --- Bottom Navigation --- -->
-    <nav class="tab-nav">
+    <nav class="tab-nav tab-nav--hidden">
       <ul class="tab-nav__list">
         <li class="tab-nav__item tab-nav__item--active js-tab-btn" data-target="screen-pick">
           <div class="tab-nav__icon layered-component" id="nav-icon-pick-container">
-            <img src="icons/icon-pick-outline.svg" class="layered-component-child nav-icon-pick-outline" alt="Pick" id="nav-icon-pick">
+            <img src="icons/icon-pick-filled.svg" class="layered-component-child nav-icon-pick-filled" alt="Pick" id="nav-icon-pick">
           </div>
           <span class="tab-nav__label">픽</span>
         </li>
@@ -342,8 +400,75 @@
       </ul>
     </nav>
 
+
+
+  <!-- --- Edit Mode Overlay & Button Group --- -->
+  <div class="edit-overlay js-edit-overlay"></div>
+  <div class="edit-guide js-edit-guide">
+    <p class="edit-guide__text">카드를 하단 버튼으로 드래그해 삭제할 수 있어요.</p>
+  </div>
+  <div class="fab-group js-fab-group">
+    <button class="btn btn--neutral js-empty-all">
+      <span>전체 삭제</span>
+    </button>
+    <button class="btn btn--danger fab-delete js-fab-delete">
+      <img src="icons/icon-trash.svg" alt="Delete"><span>삭제</span>
+    </button>
   </div>
 
+  <!-- --- Confirmation Modal --- -->
+  <div class="modal js-modal hidden">
+    <div class="modal__overlay js-modal-close"></div>
+    <div class="modal__container">
+      <div class="modal__body">
+        <h3 class="modal__title">전체 삭제</h3>
+        <p class="modal__message">정말로 저장된 모든 픽을 삭제할까요?</p>
+      </div>
+      <div class="modal__actions">
+        <button class="modal__btn modal__btn--cancel js-modal-close">취소</button>
+        <button class="modal__btn modal__btn--confirm js-modal-confirm">삭제</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- --- Toast Notification --- -->
+  <div class="toast js-toast hidden">
+    <span class="toast__msg js-toast-msg"></span>
+    <button class="toast__undo js-toast-undo">되돌리기</button>
+  </div>
+  
+  <!-- --- OTT Selection Modal --- -->
+  <div class="modal js-ott-select-modal hidden">
+    <div class="modal__overlay js-ott-select-close"></div>
+    <div class="modal__container" style="width: 320px;">
+      <div class="modal__body" style="padding: 24px 16px;">
+        <h3 class="modal__title">시청할 OTT 선택</h3>
+        <p class="modal__message" style="margin-bottom: 20px;">구독 중인 서비스에서 바로 감상하세요.</p>
+        
+        <div class="ott-selection-list">
+          <button class="btn btn--neutral ott-selection-btn js-ott-nav" data-url="https://www.netflix.com">
+            <div class="ott-selection-btn__content">
+              <img src="logos/netflix.png" alt="Netflix">
+              <span>넷플릭스에서 보기</span>
+            </div>
+          </button>
+          <button class="btn btn--neutral ott-selection-btn js-ott-nav" data-url="https://www.tving.com">
+            <div class="ott-selection-btn__content">
+              <img src="logos/tving.png" alt="Tving">
+              <span>티빙에서 보기</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="modal__actions">
+        <button class="modal__btn modal__btn--confirm js-ott-select-close" style="width: 100%; border-top: 1px solid var(--gray-100);">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  </div>
   <script src="script.js?v=2"></script>
 </body>
+
 </html>
